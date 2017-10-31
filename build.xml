@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Deployment" basedir="." default="DeployEar">
+
+	<target name = "init">
+		<property name="EARPath" value="C:\Users\sphale\Desktop\Newfolder\BW.ear"/>
+		<property name="ProjectPath" value="C:\Users\sphale\Desktop\BW "/>
+		<property name="ConfFilePath" value="C:\Users\sphale\Desktop\Newfolder\BW.xml"/>
+		<property name="ArchiveResourcePath" value="/BW.archive"/>
+		<property name="AppName" value="myApplication"/>
+		<property name="DomainName" value="myDomain"/>
+		<property name="userName" value="admin"/>
+		<property name="password" value="admin"/>
+		
+	</target>
+
+	<target name="BuildEar" depends="init">
+		<exec executable="buildear -ear /BW.archive -o C:\Users\sphale\Desktop\Newfolder\BW.ear -p C:\Users\sphale\Desktop\BW"/>
+	</target>
+
+	<target name="CreateConfFile" depends="BuildEar">
+		<exec executable="AppManage -export -ear ${EARPath} -out ${ConfFilePath}"/>
+	
+	</target>
+
+	<target name="DeployEar" depends="CreateConfFile">
+		<exec executable="AppManage -deploy -ear ${EARPath} -deployconfig ${ConfFilePath} -app ${AppName} -domain ${DomainName} -user ${userName} -pw ${password}"/>
+
+	</target>
+
+	
+</project>

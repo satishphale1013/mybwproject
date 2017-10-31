@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Deployment" basedir="." default="local-deploy">
+<target name="init">
+<property name="tibco.tra.bin" value="D:\Tibco_Installations\tra\5.10\bin"/>
+<property name="archive.name" value="/BW.archive"/>
+<property name="application.ear.filename" value="C:\Users\sphale\Desktop\Newfolder\BW.ear"/>
+<property name="temp.dir" value="C:\Users\sphale\Desktop\BW"/>
+<property name="application.deployment.xml" value="C:\Users\sphale\Desktop\Newfolder\BW.xml"/>
+<property name="tibco.domain" value="myDomain"/>
+<property name="tibco.domain.user" value="admin"/>
+<property name="tibco.domain.pwd" value="admin"/>
+</target>
+
+
+<target name="create-ear" depends="init"> 
+<exec executable="${tibco.tra.bin}/buildear.exe" failonerror="true"> 
+<env key="PATH" path="${tibco.tra.bin}"/> 
+<arg value="-s"/> 
+<arg value="-ear"/> 
+<arg value="${archive.name}"/> 
+<arg value="-o"/> 
+<arg value="${application.ear.filename}"/> 
+<arg value="-p"/> 
+<arg value="${temp.dir}"/> 
+</exec> 
+</target> 
+
+
+<target name="config" depends="create-ear"> 
+<exec executable="${tibco.tra.bin}/AppManage.exe" failonerror="true"> 
+<env key="PATH" path="${tibco.tra.bin}"/> 
+<arg value="-export"/> 
+<arg value="-ear"/> 
+<arg value="${application.ear.filename}"/> 
+<arg value="-out"/> 
+<arg value="${application.deployment.xml}"/> 
+</exec> 
+
+<replace
+    file="C:\Users\sphale\Desktop\Newfolder\BW.xml">
+    <replacetoken><![CDATA[<machine>%%Process Archive.par-machine%%</machine>]]></replacetoken>  
+    <replacevalue><![CDATA[<machine>sphale-t420</machine>]]></replacevalue>  
+</replace>
+
+
+</target> 
+
+
+
+<target name="local-deploy" depends="config"> 
+<exec executable="${tibco.tra.bin}/AppManage.exe" failonerror="true"> 
+<env key="PATH" path="${tibco.tra.bin}"/> 
+<arg value="-deploy"/> 
+<arg value="-ear"/> 
+<arg value="${application.ear.filename}"/> 
+<arg value="-deployConfig"/> 
+<arg value="${application.deployment.xml}"/> 
+<arg value="-domain"/> 
+<arg value="${tibco.domain}"/> 
+<arg value="-user"/> 
+<arg value="${tibco.domain.user}"/> 
+<arg value="-pw"/> 
+<arg value="${tibco.domain.pwd}"/> 
+</exec> 
+</target> 
+
+
+
+</project>
