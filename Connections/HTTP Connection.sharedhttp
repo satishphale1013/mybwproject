@@ -23,7 +23,7 @@
             <row>
                 <PropertyName>connectionTimeOut (ms)</PropertyName>
                 <PropertyValue/>
-                <PropertyDefaultValue>60000</PropertyDefaultValue>
+                <PropertyDefaultValue>59000</PropertyDefaultValue>
             </row>
         </HttpConnectionProperties>
     </config>
