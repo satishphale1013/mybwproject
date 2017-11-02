@@ -15,9 +15,6 @@
 <target name="create-ear" depends="init"> 
 <exec executable="${tibco.tra.bin}/buildear.exe" failonerror="true"> 
 <env key="PATH" path="${tibco.tra.bin}"/> 
-<arg value="-s"/> 
-<arg value="-ear"/> 
-<arg value="${archive.name}"/> 
 <arg value="-o"/> 
 <arg value="${application.ear.filename}"/> 
 <arg value="-p"/> 
